@@ -1,6 +1,7 @@
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
-ZSH_THEME="af-magic"
+#ZSH_THEME="af-magic"
+ZSH_THEME="agnoster"
 ENABLE_CORRECTION="true"
 plugins=(git osx jsontools common-aliases pip python sudo zsh-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
@@ -27,8 +28,6 @@ export PATH="$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
 ###RVM
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 #[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-
-
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" 
 ########### ALIASES
 
@@ -43,26 +42,37 @@ alias cdc="cd ~/Documents/codingprojects/; ls"
 alias o="open ."
 alias mymamp="/Applications/MAMP/Library/bin/mysql --host=localhost -uroot -proot"
 alias vps="ssh root@v.nickysemenza.com"
-alias cs="ssh nsemenza@data.cs.purdue.edu"
+alias cs="ssh nsemenza@moore04.cs.purdue.edu"
 alias cdt="cd ~/Desktop/tmp"
 alias reload="source ~/.zshrc"
+alias we="curl wttr.in"
 
+
+alias dev="cd ~/dev"
 alias gl="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n'' %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all"
 
-jav() {javac "$1.java"; java "$1"; }
+jav() {
+	javac "$1.java";
+	java "$1";
+}
 
 mcd () {
-mkdir -p $1
-cd $1
+	mkdir -p $1
+	cd $1
 }
 
 #PARACHUTE
-
-alias pb="cd ~/Documents/codingprojects/cl/backend; ls"
-alias pf="cd ~/Documents/codingprojects/cl/frontend; ls"
+alias pb="cd ~/Documents/dev/parachute/backend; ls"
+alias pf="cd ~/Documents/dev/parachute/frontend; ls"
 ########### END ALIASES
+
+
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 
+
+
+
+. /Library/Python/2.7/site-packages/powerline/bindings/zsh/powerline.zsh
 
