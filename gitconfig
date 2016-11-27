@@ -11,3 +11,9 @@
 	email = nicky@nickysemenza.com
 [push]
 	default = simple
+[gui]
+	recentrepo = /Users/nickysemenza/dev/recipe-hub
+[http "https://git.pqyw.flynnhub.com"]
+	sslCAInfo = /Users/nickysemenza/.flynn/ca-certs/flynn-1479887555.pem
+[credential "https://git.pqyw.flynnhub.com"]
+	helper = /usr/local/bin/flynn git-credentials

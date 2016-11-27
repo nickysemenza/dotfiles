@@ -11,16 +11,21 @@ source $ZSH/oh-my-zsh.sh
 export NPM_PACKAGES="${HOME}/.npm-packages"
 export NODE_PATH="$NPM_PACKAGES/lib/node_modules:$NODE_PATH"
 export NODE_PATH="$NODE_PATH:/usr/local/lib/node_modules"
-
-
 export PATH="$NPM_PACKAGES/bin:$PATH"
-export PATH="$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/Users/$HOME/bin"
-export PATH="/usr/local/sbin:$PATH"
+
+
+
+export GOPATH="$HOME/go"
+export PATH="$PATH:$GOPATH/bin"
+
+export PATH="$PATH:/usr/local/bin:/usr/local/Cellar:/opt/X11/bin:/$HOME/bin"
+#export PATH="/usr/local/sbin:$PATH"
+
+#export PATH="$(brew --prefix homebrew/php/php70)/bin:$PATH"
 
 export EDITOR='subl -w'
 
 export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH
-#export PATH="$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
 
 ###RVM
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
@@ -40,8 +45,8 @@ alias phpmamp="/Applications/MAMP/bin/php/php5.5.10/bin/php $argv;"
 alias phplog="tail -f /Applications/MAMP/logs/php_error.log"
 alias mymamp="/Applications/MAMP/Library/bin/mysql --host=localhost -uroot -proot"
 
-export MAMP_PHP=/Applications/MAMP/bin/php/php5.6.2/bin
-export PATH="$MAMP_PHP:$PATH"
+#export MAMP_PHP=/Applications/MAMP/bin/php/php5.6.2/bin
+#export PATH="$MAMP_PHP:$PATH"
 
 
 
@@ -81,3 +86,8 @@ export PATH="/usr/local/heroku/bin:$PATH"
 
 . /Library/Python/2.7/site-packages/powerline/bindings/zsh/powerline.zsh
 
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+export NVM_DIR="/Users/nickysemenza/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
