@@ -1,0 +1,46 @@
+# ~/.tmuxinator/message-analyzer.yml
+
+name: ma
+root: ~/dev/message-analyzer
+
+# Optional tmux socket
+# socket_name: foo
+
+# Runs before everything. Use it to start daemons etc.
+# pre: sudo /etc/rc.d/mysqld start
+
+# Runs in each window and pane before window/pane specific commands. Useful for setting up interpreter versions.
+# pre_window: rbenv shell 2.0.0-p247
+
+# Pass command line options to tmux. Useful for specifying a different tmux.conf.
+# tmux_options: -f ~/.tmux.mac.conf
+
+# Change the command to call tmux.  This can be used by derivatives/wrappers like byobu.
+# tmux_command: byobu
+
+# Specifies (by name or index) which window will be selected on project startup. If not set, the first window is used.
+# startup_window: editor
+
+# Specitifes (by index) which pane of the specified window will be selected on project startup. If not set, the first pane is used.
+# startup_pane: 1
+
+# Controls whether the tmux session should be attached to automatically. Defaults to true.
+# attach: false
+
+# Runs after everything. Use it to attach to tmux with custom options etc.
+# post: tmux -CC attach -t message-analyzer
+# [layout 3df4,269x59,0,0[270x40,0,0{135x40,0,0,25,134x40,136,0[134x20,136,0,29,134x19,136,21,32]},270x18,0,41{135x18,0,41,24,134x18,136,41,26}]]
+windows:
+  - project:
+      layout: 03eb,204x47,0,0{55x47,0,0[55x23,0,0,123,55x23,0,24,125],74x47,56,0,124,73x47,131,0,126}
+      panes:
+        - 
+        - 
+        - yarn run start
+        - yarn run backend
+  - dashboards:
+      layout: tiled
+      panes:
+        - yarn run redis-commander
+        - yarn run kue
+

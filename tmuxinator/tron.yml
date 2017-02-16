@@ -1,0 +1,69 @@
+# ~/.tmuxinator/test.yml
+
+name: parachute
+root: ~/dev/tron/bot
+
+windows:
+- main:
+    layout: tiled
+    panes:
+      - NickyBot1:
+        - yarn start ASZBT1486878409470
+      - NickyBot2:
+        - yarn start PCDGC1486878411405
+      - NickyBot3:
+        - yarn start UUTCI1486878413050
+      - NickyBot4:
+        - yarn start GTTFA1486878415198
+      - NickyBot5:
+        - yarn start LTGIG1486878417031
+      - NickyBot6:
+        - yarn start LVUSL1486878418764
+      - NickyBot7:
+        - yarn start YBHQT1486878421537
+      - NickyBot8:
+        - yarn start ATLRE1486878423384
+      - NickyBot9:
+        - yarn start PVXQI1486878425243
+      - NickyBot10:
+        - yarn start IXORZ1486878971416
+      - NickyBot11:
+        - yarn start OLACU1486879061486
+      - NickyBot12:
+        - yarn start OAFER1486879113257
+      - NickyBot13:
+        - yarn start LJGPV1486879113354
+      - NickyBot14:
+        - yarn start YEPAM1486879113463
+      - NickyBot15:
+        - yarn start LFLAQ1486879113557
+      - NickyBot16:
+        - yarn start VTWXJ1486879113663
+      - NickyBot17:
+        - yarn start ANVXD1486879113759
+      - NickyBot18:
+        - yarn start DJOCV1486879113860
+      - NickyBot19:
+        - yarn start TZRSY1486879113957
+      - NickyBot20:
+        - yarn start CULPS1486879114414
+      - NickyBot21:
+        - yarn start CFMVE1486879114511
+      - NickyBot22:
+        - yarn start MEXND1486879114607
+      - NickyBot23:
+        - yarn start XHAVZ1486879114705
+      - NickyBot24:
+        - yarn start GTTYC1486879114807
+      - NickyBot25:
+        - yarn start VLZNR1486879114905
+      - NickyBot26:
+        - yarn start UKTRY1486879115002
+      - NickyBot27:
+        - yarn start NFRZM1486879115100
+      - NickyBot28:
+        - yarn start ADUKP1486879115208
+      - NickyBot29:
+        - yarn start VMGPD1486879115309
+      - NickyBot30:
+        - yarn start GFCAC1486879115405

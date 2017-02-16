@@ -4,8 +4,10 @@ ZSH_THEME="af-magic"
 ENABLE_CORRECTION="true"
 plugins=(git osx jsontools common-aliases pip python sudo zsh-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
+eval $(thefuck --alias)
 
-
+export PATH="$PATH:${HOME}/bin"
+#export PIP_REQUIRE_VIRTUALENV=true
 
 export EDITOR='subl -w'
 alias zshconfig="subl ~/.zshrc"
@@ -19,3 +21,11 @@ mcd () {
 	mkdir -p $1
 	cd $1
 }
+export PATH="/usr/local/sbin:$PATH"
+
+export NVM_DIR="/Users/nickysemenza/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+export PATH="$HOME/.yarn/bin:$PATH"
+
+export GOPATH=$HOME/godata
+export PATH=$PATH:$GOPATH/bin
