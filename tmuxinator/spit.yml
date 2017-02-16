@@ -1,0 +1,16 @@
+# ~/.tmuxinator/spit.yml
+
+name: ma
+root: ~/dev/spit
+windows:
+  - project:
+      layout: 03eb,204x47,0,0{55x47,0,0[55x23,0,0,123,55x23,0,24,125],74x47,56,0,124,73x47,131,0,126}
+      panes:
+        - 
+        - 
+        - yarn run start
+        - yarn run backend
+  - logs:
+      panes:
+        - tail -f /usr/local/var/log/mongodb/mongo.log
+
