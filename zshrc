@@ -10,6 +10,7 @@ eval $(thefuck --alias)		#command fixer
 export EDITOR='subl -w'		#open files with sublime
 
 ##### ALIASES
+alias git=hub
 alias zshconfig="subl ~/.zshrc" #open zsh config with sublime
 alias reload="source ~/.zshrc" 	#reload zsh from new config
 alias we="curl wttr.in" 	#get the weather
@@ -29,3 +30,6 @@ export PATH="$HOME/.yarn/bin:$PATH" 	#add yarn
 
 export NVM_DIR="/Users/nickysemenza/.nvm"	#nvm
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
+
+
+fpath=(~/.zsh/completion $fpath)

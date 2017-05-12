@@ -18,8 +18,11 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'jeffkreeftmeijer/vim-numbertoggle'
 Plugin 'jelera/vim-javascript-syntax'
 Plugin 'airblade/vim-gitgutter'
+Plugin 'scrooloose/nerdtree'
+Plugin 'vim-airline/vim-airline'
 
-
+" Exclude certain filepaths for ctrlp searching
+set wildignore+=node_modules/*
 
 set laststatus=2                " always show statuslin
 

@@ -1,0 +1,16 @@
+name: antelope
+root: ~/dev/boilermake/antelope
+windows:
+  - backend:
+      root: ~/dev/boilermake/antelope/backend
+      layout: d4de,236x57,0,0{160x57,0,0,0,75x57,161,0[75x28,161,0,1,75x28,161,29,2]}
+      panes:
+        - echo 'hi'
+        - php artisan tail
+        - composer run-script tests
+  - frontend:
+      root: ~/dev/boilermake/antelope/frontend
+      layout: d4de,236x57,0,0{160x57,0,0,0,75x57,161,0[75x28,161,0,1,75x28,161,29,2]}
+      panes:
+        - echo 'hi'
+        - yarn run start
