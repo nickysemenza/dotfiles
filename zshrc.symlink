@@ -1,0 +1,180 @@
+##################################################
+################# ZSH bootstrapping 
+##################################################
+# fix from https://github.com/eddiezane/lunchy/issues/57 for fzf
+autoload -U +X bashcompinit && bashcompinit
+autoload -U +X compinit && compinit
+zmodload -i zsh/complist
+
+
+source <(antibody init)
+# antibody bundle < ~/.zsh_plugins.txt
+antibody bundle djui/alias-tips
+antibody bundle caarlos0/zsh-mkc
+antibody bundle Aloxaf/fzf-tab
+
+antibody bundle zsh-users/zsh-completions
+antibody bundle robbyrussell/oh-my-zsh path:plugins/docker
+# antibody bundle robbyrussell/oh-my-zsh path:plugins/osx
+
+
+antibody bundle softmoth/zsh-vim-mode
+antibody bundle zsh-users/zsh-autosuggestions
+antibody bundle kutsan/zsh-system-clipboard
+antibody bundle zsh-users/zsh-syntax-highlighting
+antibody bundle zsh-users/zsh-history-substring-search
+antibody bundle romkatv/powerlevel10k 
+antibody bundle zdharma/history-search-multi-word
+antibody bundle buonomo/yarn-completion
+
+export NVM_LAZY_LOAD=true
+antibody bundle lukechilds/zsh-nvm
+
+export EDITOR=nvim
+unset LSCOLORS
+export CLICOLOR=1
+export CLICOLOR_FORCE=1
+
+enable-fzf-tab
+
+
+
+
+HISTFILE=$HOME/.zsh_history
+HISTSIZE=100000
+SAVEHIST=$HISTSIZE
+
+setopt hist_ignore_all_dups # remove older duplicate entries from history
+setopt hist_reduce_blanks # remove superfluous blanks from history items
+setopt inc_append_history # save history entries as soon as they are entered
+setopt share_history # share history between different instances of the shell
+setopt auto_cd # cd by typing directory name if it's not a command
+
+
+
+##################################################
+################# path & alias
+##################################################
+
+# golang
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+export GOPRIVATE="code.cfops.it"
+
+if [[ $OS == 'OSX' ]]; then
+  # prefer over macOS installed
+  export PATH="/usr/local/opt/openssl/bin:$PATH"
+  # for some brew extras
+  export PATH="/usr/local/sbin:$PATH"
+  # one off binariees
+  export PATH="$HOME/bin:$PATH"
+fi
+alias k="kubectl"
+alias zreload="source ~/.zshrc"
+alias zedit="subl ~/.zshrc"
+
+
+
+# brew install displayplacer
+alias disp='displayplacer "id:C00578F1-2AC6-3307-3D7B-1E1BF5E16B2C res:3840x2160 hz:60 color_depth:8 scaling:off origin:(0,0) degree:0" "id:A4B0C432-E1DB-4998-63F2-9EC86A849184 res:2160x3840 hz:60 color_depth:8 scaling:off origin:(3840,-889) degree:90"'
+
+##################################################
+################# FUNCTIONS 
+##################################################
+
+# open jira tasks assigned to me
+jm() { jira list --query "resolution = unresolved and assignee=currentuser() ORDER BY priority asc, created" | fzf | cut -f1 -d":" | tr -d '\n'| pbcopy }
+
+# dk kills all docker containers
+dk() {
+  count=$(docker ps -a -q | wc -l)
+  echo "killing $count containers" 
+	docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)
+}
+
+# update brew + casks
+brewall() { brew update && brew upgrade && brew cleanup && brew cu -f && brew cask doctor && brew cleanup }
+
+# https://github.com/junegunn/fzf/wiki/examples#command-history
+fh() { print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed -r 's/ *[0-9]*\*? *//' | sed -r 's/\\/\\\\/g') }
+
+# https://github.com/junegunn/fzf/wiki/examples#integration-with-zsh-interactive-cd
+fkill() {
+    local pid 
+    if [ "$UID" != "0" ]; then
+        pid=$(ps -f -u $UID | sed 1d | fzf -m | awk '{print $2}')
+    else
+        pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+    fi  
+
+    if [ "x$pid" != "x" ]
+    then
+        echo $pid | xargs kill -${1:-9}
+    fi  
+}
+
+# https://github.com/junegunn/fzf/wiki/examples#git
+fbr() {
+  local branches branch
+  branches=$(git --no-pager branch -vv) &&
+  branch=$(echo "$branches" | fzf +m) &&
+  git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
+}
+
+# https://github.com/junegunn/fzf/wiki/examples#lastpass-cli
+wp () { lpass show -c --password $(lpass ls  | fzf | awk '{print $(NF)}' | sed 's/\]//g') }
+
+# docker shell into a specific container
+dsh() {
+  local cid
+  cid=$(docker ps -a | sed 1d | fzf -1 -q "$1" | awk '{print $1}')
+
+  [ -n "$cid" ] && docker start "$cid" && docker exec -it "$cid" bash
+}
+
+# kubernetes shell into a given pod
+ksh () {
+	podname=$(k get pods | sed 1d | fzf -1 -q "$1" | awk '{print $1}')
+	k exec "$podname" -it bash 
+}
+
+# nvm is slow, so only use it when needed
+# load_nvm () { export NVM_DIR="$HOME/.nvm" &&  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && nvm use 12.13.1 }
+
+# random mac adress
+changeMac () {
+  local net=${1:-en0}
+  local mac=$(openssl rand -hex 6 | sed 's/\(..\)/\1:/g; s/.$//')
+  #sudo ifconfig $net ether $mac
+  #udo ifconfig $net down
+  #sudo ifconfig $net up
+  echo "Your new physical address for interface $net is $mac"
+}
+
+# copies a PEM blob as a single \n seperated line.
+cert_copy () { awk '{printf "%s\\n", $0}' $1 | pbcopy }
+
+clearDockerLog(){
+  dockerLogFile=$(docker inspect $1 | grep -G '\"LogPath\": \"*\"' | sed -e 's/.*\"LogPath\": \"//g' | sed -e 's/\",//g')
+  rmCommand="rm $dockerLogFile"
+  screen -d -m -S dockerlogdelete ~/Library/Containers/com.docker.docker/Data/vms/0/tty
+  screen -S dockerlogdelete -p 0 -X stuff $"$rmCommand"
+  screen -S dockerlogdelete -p 0 -X stuff $'\n'
+  screen -S dockerlogdelete -X quit
+}
+
+
+[[ ! -f ~/.work-config.zsh ]] || source ~/.work-config.zsh
+
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
+
+alias hh=hstr                    # hh to be alias for hstr
+setopt histignorespace           # skip cmds w/ leading space from history
+export HSTR_CONFIG=hicolor       # get more colors
+# bindkey -s "\C-r" "\C-a hstr -- \C-j"     # bind hstr to Ctrl-r (for Vi mode check doc)
+
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

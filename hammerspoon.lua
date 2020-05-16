@@ -45,10 +45,31 @@ hs.hotkey.bind(mash, "Up", function()
   local screen = win:screen()
   local max = screen:frame()
 
+  if f.w == max.w and f.h == max.h then
+    f.x = max.x
+    f.y = max.y
+    f.w = max.w
+    f.h = max.h / 2
+  else
+    f.x = max.x
+    f.y = max.y
+    f.w = max.w
+    f.h = max.h
+  end
+    
+  win:setFrame(f)
+end)
+hs.hotkey.bind(mash, "Down", function()
+  local win = hs.window.focusedWindow()
+  local f = win:frame()
+  local screen = win:screen()
+  local max = screen:frame()
+
   f.x = max.x
-  f.y = max.y
+  f.y = max.y + (max.h / 2) 
   f.w = max.w
-  f.h = max.h
+  f.h = max.h / 2
+  
   win:setFrame(f)
 end)
 
@@ -57,7 +78,7 @@ end)
 -- mapping: 
 --    | 1 2 |
 --    | 3 4 | 
-hs.hotkey.bind(mash_shift, "1", function()
+hs.hotkey.bind(mash, "1", function()
   local win = hs.window.focusedWindow()
   local f = win:frame()
   local screen = win:screen()
@@ -70,7 +91,7 @@ hs.hotkey.bind(mash_shift, "1", function()
   win:setFrame(f)
 end)
 
-hs.hotkey.bind(mash_shift, "2", function()
+hs.hotkey.bind(mash, "2", function()
   local win = hs.window.focusedWindow()
   local f = win:frame()
   local screen = win:screen()
@@ -83,7 +104,7 @@ hs.hotkey.bind(mash_shift, "2", function()
   win:setFrame(f)
 end)
 
-hs.hotkey.bind(mash_shift, "3", function()
+hs.hotkey.bind(mash, "3", function()
   local win = hs.window.focusedWindow()
   local f = win:frame()
   local screen = win:screen()
@@ -96,7 +117,7 @@ hs.hotkey.bind(mash_shift, "3", function()
   win:setFrame(f)
 end)
 
-hs.hotkey.bind(mash_shift, "4", function()
+hs.hotkey.bind(mash, "4", function()
   local win = hs.window.focusedWindow()
   local f = win:frame()
   local screen = win:screen()
@@ -150,5 +171,4 @@ function reloadConfig(files)
 end
 hs.pathwatcher.new(os.getenv("HOME") .. "/.hammerspoon/", reloadConfig):start()
 hs.alert.show("Config loaded")
-
 --inspiration: https://github.com/Hammerspoon/hammerspoon/wiki/ztomer's-init.lua
