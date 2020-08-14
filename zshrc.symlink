@@ -58,18 +58,23 @@ export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 
 
-if [[ $OS == 'OSX' ]]; then
+# if [[ $OS == 'OSX' ]]; then
   # prefer over macOS installed
   export PATH="/usr/local/opt/openssl/bin:$PATH"
   # for some brew extras
   export PATH="/usr/local/sbin:$PATH"
   # one off binariees
   export PATH="$HOME/bin:$PATH"
-fi
+  export PATH="$PATH:/usr/local/Cellar/"
+# fi
 alias k="kubectl"
-alias zreload="source ~/.zshrc"
+alias d="docker"
+alias zreload='exec zsh -l'
 alias zedit="subl ~/.zshrc"
+alias -s {zshrc,zsh}=subl
 
+# `http://abc.git` will auto git clone
+alias -s git="git clone"
 
 
 # brew install displayplacer
@@ -126,13 +131,13 @@ dsh() {
   local cid
   cid=$(docker ps -a | sed 1d | fzf -1 -q "$1" | awk '{print $1}')
 
-  [ -n "$cid" ] && docker start "$cid" && docker exec -it "$cid" bash
+  [ -n "$cid" ] && docker start "$cid" && docker exec -it "$cid" sh
 }
 
 # kubernetes shell into a given pod
 ksh () {
 	podname=$(k get pods | sed 1d | fzf -1 -q "$1" | awk '{print $1}')
-	k exec "$podname" -it bash 
+	k exec "$podname" -it sh 
 }
 
 # nvm is slow, so only use it when needed
@@ -162,6 +167,9 @@ clearDockerLog(){
 
 
 [[ ! -f ~/.work-config.zsh ]] || source ~/.work-config.zsh
+
+hash -d food=$HOME/dev/food
+
 
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
