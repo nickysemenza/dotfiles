@@ -1,0 +1,12 @@
+[core]
+	excludesfile = {{ .chezmoi.homeDir }}/.gitignore_global
+	editor = subl -n -w
+
+{{ if eq .tier "work" -}}
+[includeIf "gitdir:{{ .work_dir }}"]
+  path = .gitconfig-work
+{{ end -}}  
+[includeIf "gitdir:{{ .chezmoi.homeDir }}/dev/"]
+  path = .gitconfig-personal
+[includeIf "gitdir:{{ .chezmoi.sourceDir }}/"]
+  path = .gitconfig-personal

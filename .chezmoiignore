@@ -1,0 +1,4 @@
+README.md
+{{- if ne .tier "work" }}
+.gitconfig-work
+{{- end }}
