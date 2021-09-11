@@ -66,15 +66,11 @@ export PATH=$PATH:$GOPATH/bin
   export PATH="$HOME/bin:$PATH"
   export PATH="$PATH:/usr/local/Cellar/"
 # fi
-alias k="kubecolor"
+alias k="kubectl"
 alias d="docker"
 alias zreload='exec zsh -l'
 alias zedit="subl ~/.zshrc"
 alias -s {zshrc,zsh}=subl
-
-alias ga="git commit --amend --no-edit"
-alias gpf="git push --force"
-alias colo='colo -access -api "https://provision-access.cfdata.org/v3/colos"'
 
 # `http://abc.git` will auto git clone
 alias -s git="git clone"
@@ -139,8 +135,8 @@ dsh() {
 
 # kubernetes shell into a given pod
 ksh () {
-	podname=$(kubectl get pods | sed 1d | fzf -1 -q "$1" | awk '{print $1}')
-	kubectl exec "$podname" -it sh 
+	podname=$(k get pods | sed 1d | fzf -1 -q "$1" | awk '{print $1}')
+	k exec "$podname" -it sh 
 }
 
 # nvm is slow, so only use it when needed
@@ -166,39 +162,6 @@ clearDockerLog(){
   screen -S dockerlogdelete -p 0 -X stuff $"$rmCommand"
   screen -S dockerlogdelete -p 0 -X stuff $'\n'
   screen -S dockerlogdelete -X quit
-}
-
-
-function kubectl () {
-    KUBECTL_BIN=/usr/local/Cellar/kubectl-socks/1.16.15/bin/kubectl
-    if (ps aux | grep --color=auto -q "[c]loudflared")
-    then
-        CONTEXT=$(${KUBECTL_BIN} config current-context)
-        if [[ ${CONTEXT} =~ 'cfctl-*' ]]
-        then
-            CLUSTER=$(echo "${CONTEXT}" | sed 's/cfctl-//')
-            if ! TUNNEL_CONFIG=$(grep "api.tun.${CLUSTER}.k8s.cfplat.com" -A 1 ~/.cloudflared/config.yaml)
-            then
-                echo "No cloudflared configuration for the current cluster exists!"
-                return 1
-            fi
-            PROXY_ENDPOINT=$(echo ${TUNNEL_CONFIG} | grep 'listener:' | sed s/listener:// | tr -d '[:space:]')
-            if [[ ${PROXY_ENDPOINT} == "" ]]
-            then
-                echo "Unable to find listener endpoint for api.tun.${CLUSTER}.k8s.cfplat.com"
-                echo "Is your cloudflared config file correct?"
-                return 1
-            fi
-            HTTPS_PROXY=socks5://${PROXY_ENDPOINT} ${KUBECTL_BIN} $@
-            return $?
-        else
-            echo "Only cfctl contexts are supported over cloudflared"
-            return 1
-        fi
-    else
-        echo "cloudflared is not running!"
-        return 1
-    fi
 }
 
 

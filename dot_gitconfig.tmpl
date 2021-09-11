@@ -2,7 +2,7 @@
 	excludesfile = {{ .chezmoi.homeDir }}/.gitignore_global
 	editor = subl -n -w
 
-{{ if eq .tier "work" -}}
+{{ if .work -}}
 [includeIf "gitdir:{{ .work_dir }}"]
   path = .gitconfig-work
 {{ end -}}  

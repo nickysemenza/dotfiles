@@ -1,4 +1,30 @@
 README.md
-{{- if ne .tier "work" }}
+.vscode
+
+{{- if not .work }}
+# work specific stuff
 .gitconfig-work
+.cloudflared
 {{- end }}
+
+{{ if ne .chezmoi.os "darwin" }}
+# mac specific stuff
+.hammerspoon
+{{ end }}
+
+.cache
+.config/fish/fishd.tmp.*
+.yarnrc
+.nvm
+.vault-token
+.docker
+.*history
+.cloudflared/*-token
+.fly
+
+install.sh
+
+{{- if .codespaces }}
+# no ssh keys here
+.ssh
+{{ end }}

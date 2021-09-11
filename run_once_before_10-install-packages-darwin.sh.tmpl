@@ -1,0 +1,69 @@
+{{- if (eq .chezmoi.os "darwin") -}}
+#!/bin/bash
+
+set -eufo pipefail
+
+{{ $brews := list
+     "bat"
+     "curl"
+     "dockutil"
+     "exa"
+     "ffmpeg"
+     "gh"
+     "git"
+     "gnu-units"
+     "go"
+     "golangci-lint"
+     "jq"
+     "node"
+     "ripgrep"
+     "tmux"
+     "wget"
+     "xz"
+     "youtube-dl" -}}
+{{ $casks := list
+     "docker"
+     "google-chrome"
+     "google-earth-pro"
+     "hammerspoon"
+     "iterm2"
+     "karabiner-elements"
+     "spotify"
+     "vagrant"
+     "visual-studio-code"
+	 "wireshark"
+	 "notion"
+	 "calibre"
+	 "cyberduck"
+     "vlc" -}}
+
+
+
+{{ if .personal -}}
+{{   $brews = concat $brews (list
+       "bitwarden-cli"
+       "vault") -}}
+{{ $casks = concat $casks (list
+       "prusaslicer"
+       "balenaetcher") -}}
+{{ end -}}
+
+{{ if .work -}}
+{{   $brews = concat $brews (list
+       "vault"
+     	"goreleaser"
+       	"lastpass-cli") -}}
+{{ $casks = concat $casks (list
+       "meetingbar"
+       "zoom") -}}
+{{ end -}}
+
+brew bundle --no-lock --file=/dev/stdin <<EOF
+{{ range ($brews | sortAlpha | uniq) -}}
+brew "{{ . }}"
+{{ end -}}
+{{ range ($casks | sortAlpha | uniq) -}}
+cask "{{ . }}"
+{{ end -}}
+EOF
+{{ end -}}
