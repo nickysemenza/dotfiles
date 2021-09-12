@@ -1,5 +1,7 @@
 README.md
 .vscode
+.DS_Store
+
 
 {{- if not .work }}
 # work specific stuff
@@ -14,6 +16,7 @@ README.md
 
 .cache
 .config/fish/fishd.tmp.*
+.config/fish/functions/_*
 .yarnrc
 .nvm
 .vault-token
