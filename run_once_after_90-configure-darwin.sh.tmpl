@@ -40,6 +40,11 @@ defaults write com.apple.ActivityMonitor ShowCategory -int 0
 defaults write com.apple.ActivityMonitor SortColumn -string "CPUUsage"
 defaults write com.apple.ActivityMonitor SortDirection -int 0
 
+# Show the ~/Library folder
+chflags nohidden ~/Library && xattr -d com.apple.FinderInfo ~/Library
+
+# Show the /Volumes folder
+sudo chflags nohidden /Volumes
 
 defaults write com.google.Chrome AppleEnableSwipeNavigateWithScrolls -bool false
 defaults write com.google.Chrome.canary AppleEnableSwipeNavigateWithScrolls -bool false
@@ -47,5 +52,24 @@ defaults write com.google.Chrome.canary AppleEnableSwipeNavigateWithScrolls -boo
 # https://github.com/twpayne/dotfiles/blob/master/run_once_after_90-configure-darwin.sh.tmpl
 # https://github.com/mathiasbynens/dotfiles/blob/main/.macos
 
+
+# https://github.com/mathiasbynens/dotfiles/blob/main/.macos#L436
+# top right Mission Control
+defaults write com.apple.dock wvous-tr-corner -int 2
+defaults write com.apple.dock wvous-tr-modifier -int 0
+
+# top left App windows
+defaults write com.apple.dock wvous-tl-corner -int 3
+defaults write com.apple.dock wvous-tl-modifier -int 0
+
+# bottom right screensaver
+defaults write com.apple.dock wvous-br-corner -int 5
+defaults write com.apple.dock wvous-br-modifier -int 0
+
+# bottom right n/a
+defaults write com.apple.dock wvous-bl-corner -int 0
+defaults write com.apple.dock wvous-bl-modifier -int 0
+
+Killall Dock
 
 {{ end -}}
