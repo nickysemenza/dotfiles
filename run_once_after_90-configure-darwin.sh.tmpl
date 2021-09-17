@@ -3,6 +3,7 @@
 
 set -eufo pipefail
 
+ln -s ~/Library/Mobile\ Documents/com~apple~CloudDocs/ ~/icloud
 
 defaults write com.apple.finder AppleShowAllFiles true
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true
@@ -70,6 +71,40 @@ defaults write com.apple.dock wvous-br-modifier -int 0
 defaults write com.apple.dock wvous-bl-corner -int 0
 defaults write com.apple.dock wvous-bl-modifier -int 0
 
-Killall Dock
+
+# Remove the auto-hiding Dock delay
+defaults write com.apple.dock autohide-delay -float 0.2
+# Remove the animation when hiding/showing the Dock
+defaults write com.apple.dock autohide-time-modifier -float 0.2
+
+# Automatically hide and show the Dock
+defaults write com.apple.dock autohide -bool true
+
+
+for dockItemLabel in \
+	Launchpad \
+	Safari \
+	Mail \
+	FaceTime \
+	Messages \
+	Maps \
+	Photos \
+	Contacts \
+	Calendar \
+	Reminders \
+	Notes \
+	Music \
+	Podcasts \
+	TV \
+	News \
+	Numbers \
+	Keynote \
+	Pages \
+	"App Store" \
+	"System Preferences" ; do
+	dockutil --find "$dockItemLabel" >/dev/null && dockutil --no-restart --remove "$dockItemLabel"
+done
+
+killall Dock
 
 {{ end -}}
