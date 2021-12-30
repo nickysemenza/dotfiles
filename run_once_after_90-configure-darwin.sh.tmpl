@@ -3,7 +3,7 @@
 
 set -eufo pipefail
 
-ln -s ~/Library/Mobile\ Documents/com~apple~CloudDocs/ ~/icloud
+ln -sfn ~/Library/Mobile\ Documents/com~apple~CloudDocs/ ~/icloud
 
 defaults write com.apple.finder AppleShowAllFiles true
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true
@@ -42,7 +42,7 @@ defaults write com.apple.ActivityMonitor SortColumn -string "CPUUsage"
 defaults write com.apple.ActivityMonitor SortDirection -int 0
 
 # Show the ~/Library folder
-chflags nohidden ~/Library && xattr -d com.apple.FinderInfo ~/Library
+chflags nohidden ~/Library
 
 # Show the /Volumes folder
 sudo chflags nohidden /Volumes

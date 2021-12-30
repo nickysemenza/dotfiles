@@ -9,6 +9,9 @@ brew tap homebrew/cask-fonts
 brew tap buo/cask-upgrade
 
 {{ $brews := list
+    "superfly/tap/flyctl"
+    "coreutils"
+    "imagemagick"
     "age"
     "bat"
     "binwalk"
@@ -60,10 +63,11 @@ brew tap buo/cask-upgrade
     "yarn"
     "yq" -}}
 {{ $casks := list
+    "betterzip"
+    "numi"
     "font-hack-nerd-font"
     "sf-symbols"
     "disk-inventory-x"
-    "java"
 	"calibre"
 	"cyberduck"
     "alfred"
