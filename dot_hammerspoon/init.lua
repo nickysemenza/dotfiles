@@ -6,6 +6,8 @@ hs.grid.MARGINY = 0
 hs.grid.GRIDWIDTH = 7
 hs.grid.GRIDHEIGHT = 3
 
+hs.hotkey.bind({"cmd", "alt", "ctrl", "shift"}, "F", function() hs.application.launchOrFocus("iTerm") end)
+
 -- disable animation
 hs.window.animationDuration = 0
 
